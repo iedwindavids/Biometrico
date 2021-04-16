@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UsuariosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="documento" />
+          </Key>
+          <Property Name="idEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documento" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="apellido" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MARCACION">
+          <Key>
+            <PropertyRef Name="diaMarcacion" />
+            <PropertyRef Name="idRegistro" />
+            <PropertyRef Name="tipoMarcacion" />
+          </Key>
+          <Property Name="idMarcacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="horaMarcacion" Type="time" Precision="7" Nullable="false" />
+          <Property Name="diaMarcacion" Type="date" Nullable="false" />
+          <Property Name="idRegistro" Type="int" Nullable="false" />
+          <Property Name="tipoMarcacion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="REGISTRO">
+          <Key>
+            <PropertyRef Name="idRegistro" />
+          </Key>
+          <Property Name="idRegistro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documento" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="huella" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TIPOMARCACION">
+          <Key>
+            <PropertyRef Name="idTipoMarcacion" />
+          </Key>
+          <Property Name="idTipoMarcacion" Type="int" Nullable="false" />
+          <Property Name="tipoMarcacion" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__MARCACION__idReg__3D5E1FD2">
+          <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="1" />
+          <End Role="MARCACION" Type="Self.MARCACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGISTRO">
+              <PropertyRef Name="idRegistro" />
+            </Principal>
+            <Dependent Role="MARCACION">
+              <PropertyRef Name="idRegistro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MARCACION__tipoM__3E52440B">
+          <End Role="TIPOMARCACION" Type="Self.TIPOMARCACION" Multiplicity="1" />
+          <End Role="MARCACION" Type="Self.MARCACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPOMARCACION">
+              <PropertyRef Name="idTipoMarcacion" />
+            </Principal>
+            <Dependent Role="MARCACION">
+              <PropertyRef Name="tipoMarcacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REGISTRO__docume__38996AB5">
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="1" />
+          <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADO">
+              <PropertyRef Name="documento" />
+            </Principal>
+            <Dependent Role="REGISTRO">
+              <PropertyRef Name="documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="mostrarRegistros" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="UsuariosDBModelStoreContainer">
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MARCACION" EntityType="Self.MARCACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REGISTRO" EntityType="Self.REGISTRO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPOMARCACION" EntityType="Self.TIPOMARCACION" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__MARCACION__idReg__3D5E1FD2" Association="Self.FK__MARCACION__idReg__3D5E1FD2">
+            <End Role="REGISTRO" EntitySet="REGISTRO" />
+            <End Role="MARCACION" EntitySet="MARCACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MARCACION__tipoM__3E52440B" Association="Self.FK__MARCACION__tipoM__3E52440B">
+            <End Role="TIPOMARCACION" EntitySet="TIPOMARCACION" />
+            <End Role="MARCACION" EntitySet="MARCACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REGISTRO__docume__38996AB5" Association="Self.FK__REGISTRO__docume__38996AB5">
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+            <End Role="REGISTRO" EntitySet="REGISTRO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UsuariosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EMPLEADO">
+          <Key>
+            <PropertyRef Name="documento" />
+          </Key>
+          <Property Name="idEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documento" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="REGISTRO" Relationship="Self.FK__REGISTRO__docume__38996AB5" FromRole="EMPLEADO" ToRole="REGISTRO" />
+        </EntityType>
+        <EntityType Name="MARCACION">
+          <Key>
+            <PropertyRef Name="diaMarcacion" />
+            <PropertyRef Name="idRegistro" />
+            <PropertyRef Name="tipoMarcacion" />
+          </Key>
+          <Property Name="idMarcacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="horaMarcacion" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="diaMarcacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idRegistro" Type="Int32" Nullable="false" />
+          <Property Name="tipoMarcacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="REGISTRO" Relationship="Self.FK__MARCACION__idReg__3D5E1FD2" FromRole="MARCACION" ToRole="REGISTRO" />
+          <NavigationProperty Name="TIPOMARCACION1" Relationship="Self.FK__MARCACION__tipoM__3E52440B" FromRole="MARCACION" ToRole="TIPOMARCACION" />
+        </EntityType>
+        <EntityType Name="REGISTRO">
+          <Key>
+            <PropertyRef Name="idRegistro" />
+          </Key>
+          <Property Name="idRegistro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documento" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="huella" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="EMPLEADO" Relationship="Self.FK__REGISTRO__docume__38996AB5" FromRole="REGISTRO" ToRole="EMPLEADO" />
+          <NavigationProperty Name="MARCACION" Relationship="Self.FK__MARCACION__idReg__3D5E1FD2" FromRole="REGISTRO" ToRole="MARCACION" />
+        </EntityType>
+        <EntityType Name="TIPOMARCACION">
+          <Key>
+            <PropertyRef Name="idTipoMarcacion" />
+          </Key>
+          <Property Name="idTipoMarcacion" Type="Int32" Nullable="false" />
+          <Property Name="tipoMarcacion1" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MARCACION" Relationship="Self.FK__MARCACION__tipoM__3E52440B" FromRole="TIPOMARCACION" ToRole="MARCACION" />
+        </EntityType>
+        <Association Name="FK__REGISTRO__docume__38996AB5">
+          <End Role="EMPLEADO" Type="Self.EMPLEADO" Multiplicity="1" />
+          <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADO">
+              <PropertyRef Name="documento" />
+            </Principal>
+            <Dependent Role="REGISTRO">
+              <PropertyRef Name="documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MARCACION__idReg__3D5E1FD2">
+          <End Role="REGISTRO" Type="Self.REGISTRO" Multiplicity="1" />
+          <End Role="MARCACION" Type="Self.MARCACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGISTRO">
+              <PropertyRef Name="idRegistro" />
+            </Principal>
+            <Dependent Role="MARCACION">
+              <PropertyRef Name="idRegistro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MARCACION__tipoM__3E52440B">
+          <End Role="TIPOMARCACION" Type="Self.TIPOMARCACION" Multiplicity="1" />
+          <End Role="MARCACION" Type="Self.MARCACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPOMARCACION">
+              <PropertyRef Name="idTipoMarcacion" />
+            </Principal>
+            <Dependent Role="MARCACION">
+              <PropertyRef Name="tipoMarcacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UsuariosDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EMPLEADO" EntityType="Self.EMPLEADO" />
+          <EntitySet Name="MARCACION" EntityType="Self.MARCACION" />
+          <EntitySet Name="REGISTRO" EntityType="Self.REGISTRO" />
+          <EntitySet Name="TIPOMARCACION" EntityType="Self.TIPOMARCACION" />
+          <AssociationSet Name="FK__REGISTRO__docume__38996AB5" Association="Self.FK__REGISTRO__docume__38996AB5">
+            <End Role="EMPLEADO" EntitySet="EMPLEADO" />
+            <End Role="REGISTRO" EntitySet="REGISTRO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MARCACION__idReg__3D5E1FD2" Association="Self.FK__MARCACION__idReg__3D5E1FD2">
+            <End Role="REGISTRO" EntitySet="REGISTRO" />
+            <End Role="MARCACION" EntitySet="MARCACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MARCACION__tipoM__3E52440B" Association="Self.FK__MARCACION__tipoM__3E52440B">
+            <End Role="TIPOMARCACION" EntitySet="TIPOMARCACION" />
+            <End Role="MARCACION" EntitySet="MARCACION" />
+          </AssociationSet>
+          <FunctionImport Name="mostrarRegistros" ReturnType="Collection(UsuariosDBModel.mostrarRegistros_Result)" />
+        </EntityContainer>
+        <ComplexType Name="mostrarRegistros_Result">
+          <Property Type="String" Name="documento" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="apellido" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="tipoMarcacion" Nullable="false" MaxLength="25" />
+          <Property Type="Time" Name="horaMarcacion" Nullable="false" />
+          <Property Type="DateTime" Name="diaMarcacion" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UsuariosDBModelStoreContainer" CdmEntityContainer="UsuariosDBEntities">
+          <EntitySetMapping Name="EMPLEADO">
+            <EntityTypeMapping TypeName="UsuariosDBModel.EMPLEADO">
+              <MappingFragment StoreEntitySet="EMPLEADO">
+                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MARCACION">
+            <EntityTypeMapping TypeName="UsuariosDBModel.MARCACION">
+              <MappingFragment StoreEntitySet="MARCACION">
+                <ScalarProperty Name="idMarcacion" ColumnName="idMarcacion" />
+                <ScalarProperty Name="horaMarcacion" ColumnName="horaMarcacion" />
+                <ScalarProperty Name="diaMarcacion" ColumnName="diaMarcacion" />
+                <ScalarProperty Name="idRegistro" ColumnName="idRegistro" />
+                <ScalarProperty Name="tipoMarcacion" ColumnName="tipoMarcacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REGISTRO">
+            <EntityTypeMapping TypeName="UsuariosDBModel.REGISTRO">
+              <MappingFragment StoreEntitySet="REGISTRO">
+                <ScalarProperty Name="idRegistro" ColumnName="idRegistro" />
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="huella" ColumnName="huella" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPOMARCACION">
+            <EntityTypeMapping TypeName="UsuariosDBModel.TIPOMARCACION">
+              <MappingFragment StoreEntitySet="TIPOMARCACION">
+                <ScalarProperty Name="idTipoMarcacion" ColumnName="idTipoMarcacion" />
+                <ScalarProperty Name="tipoMarcacion1" ColumnName="tipoMarcacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="mostrarRegistros" FunctionName="UsuariosDBModel.Store.mostrarRegistros">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UsuariosDBModel.mostrarRegistros_Result">
+                <ScalarProperty Name="documento" ColumnName="documento" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="tipoMarcacion" ColumnName="tipoMarcacion" />
+                <ScalarProperty Name="horaMarcacion" ColumnName="horaMarcacion" />
+                <ScalarProperty Name="diaMarcacion" ColumnName="diaMarcacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
